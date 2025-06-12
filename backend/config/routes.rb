@@ -9,4 +9,4 @@ Rails.application.routes.draw do
   # root "posts#index"
 end
 get "/auth/slack",          to: "sessions#slack_redirect"
-  get "/auth/slack/callback", to: "sessions#slack_callback"
+  match "/auth/:provider/callback", to: "sessions#slack_callback", via: %i[get post]
