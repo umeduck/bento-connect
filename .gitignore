@@ -1,1 +1,3 @@
+backend/config/master.key
 backend/backend/config/master.key
+.env

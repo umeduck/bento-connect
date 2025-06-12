@@ -1,0 +1,25 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: bentoconnect_test
+        ports: ["3306:3306"]
+        options: >-
+          --health-cmd "mysqladmin ping --silent"
+          --health-interval 10s --health-timeout 5s --health-retries 3
+    env:
+      MYSQL_ROOT_PASSWORD: password
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+      - run: gem install bundler
+      - run: bundle install --jobs 4 --retry 3
+      - run: bundle exec rspec
