@@ -8,3 +8,5 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 end
+get "/auth/slack",          to: "sessions#slack_redirect"
+  match "/auth/:provider/callback", to: "sessions#slack_callback", via: %i[get post]
